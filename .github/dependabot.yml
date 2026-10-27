@@ -1,13 +1,19 @@
 version: 2
 updates:
+  # One PR per ecosystem per week instead of one per package.
   - package-ecosystem: npm
     directory: /
     schedule:
       interval: weekly
+    open-pull-requests-limit: 2
     groups:
-      npm-minor-patch:
-        update-types: [minor, patch]
+      npm-all:
+        patterns: ['*']
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: weekly
+    open-pull-requests-limit: 2
+    groups:
+      actions-all:
+        patterns: ['*']

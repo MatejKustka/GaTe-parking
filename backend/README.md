@@ -1,5 +1,10 @@
 # Backend
 
-Backend application, database schema and migrations, backend tests.
+Node.js + Express + TypeScript API with MongoDB (Mongoose).
 
-Stack, setup and run instructions: _TBD (fill in once the stack is chosen)._
+```
+npm run dev -w backend     # watch mode, needs MongoDB (docker compose up -d mongo)
+npm run test -w backend
+```
+
+Config via `.env` (see `.env.example`). Health check: `GET /api/health`. API documentation goes in `docs/api/`.

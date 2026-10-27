@@ -1,5 +1,8 @@
 # Frontend
 
-Frontend application and its tests.
+React + TypeScript app built with Vite. Requests to `/api` are proxied to the backend on port 8080 in development.
 
-Stack, setup and run instructions: _TBD (fill in once the stack is chosen)._
+```
+npm run dev -w frontend
+npm run test -w frontend
+```

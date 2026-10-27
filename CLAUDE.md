@@ -23,24 +23,24 @@ Assume the user does not know git. Explain what you are about to do in one plain
 - `frontend/`: frontend app and tests
 - `docs/`: PBS, API docs, business model, wireframes, test reports
 
-The tech stack is not chosen yet. Do not introduce a framework, language or dependency manager on your own. If the user asks for one, check `README.md` first and ask whether the team has agreed on it.
+Stack: React + TypeScript (Vite) frontend, Node.js + Express + TypeScript backend, MongoDB (Mongoose). npm workspaces; run `npm run check` (format, lint, types, tests, build) before committing or shipping. Do not introduce other frameworks or dependency managers without team agreement. New contributors follow `docs/ONBOARDING.md`.
 
 ## Domain reminders
 
 - Roles: signed-in user and administrator. Admins can edit and delete any reservation; users only their own.
 - Vehicles have a license plate, engine type (combustion / electric) and size (small / standard / large).
 - Spots have a type (standard / disabled / EV), a size and a status (free / reserved / occupied).
-- The PBS (gate access, EV chargers, analytics) and the user stories (reservations, payment, notifications) currently differ. Do not assume which is authoritative; ask if a task depends on it.
+- Scope is decided in `docs/SCOPE.md`: the 11 user stories are the MVP; gate hardware, live charger status/tariffs and analytics are stretch. Check it before building something that is not in a user story.
 
 ## Slash commands
 
-| Command | Use |
-|---|---|
+| Command              | Use                                                  |
+| -------------------- | ---------------------------------------------------- |
 | `/start-task <name>` | Sync with `main` and create a correctly named branch |
-| `/sync` | Bring the latest `main` into your branch |
-| `/save <message>` | Commit your work on your branch (never on `main`) |
-| `/ship` | Push your branch and open a pull request |
-| `/release <version>` | Maintainers only: tag a release from `main` |
+| `/sync`              | Bring the latest `main` into your branch             |
+| `/save <message>`    | Commit your work on your branch (never on `main`)    |
+| `/ship`              | Push your branch and open a pull request             |
+| `/release <version>` | Maintainers only: tag a release from `main`          |
 
 ## Quality
 

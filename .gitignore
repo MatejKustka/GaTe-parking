@@ -68,3 +68,6 @@ pgdata/
 test-results/
 playwright-report/
 *.tmp
+
+# Claude Code local overrides
+.claude/settings.local.json

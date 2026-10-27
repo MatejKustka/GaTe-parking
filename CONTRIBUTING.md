@@ -26,6 +26,17 @@ fix: reject duplicate plates for active users
 - Backend changes that affect the API need the API docs in `docs/` updated.
 - Frontend and backend owners must not change each other's agreed contracts unilaterally (see PBS: spec changes go through the analyst).
 
+## Using Claude Code
+
+The repo ships rules in `CLAUDE.md` and slash commands in `.claude/commands/`, so you do not need to know git commands:
+
+1. `/start-task feat/my-task` to begin on a new branch
+2. work, then `/save` to commit
+3. `/sync` to pull in teammates' changes
+4. `/ship` to push and open a pull request
+
+Maintainers use `/release v0.1.0` to tag a release.
+
 ## Project layout
 
 | Folder | Purpose |

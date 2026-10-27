@@ -11,7 +11,7 @@ Student team project (team 3) with 11 contributors, many of whom are new to git.
 5. **Only touch your own area.** Stay inside the files needed for the user's PBS task. Do not reformat, rename or reorganize other people's code, and do not change shared contracts (API shapes, DB schema, data model) unless the task says so. If a change is needed outside the task, tell the user to talk to the team first.
 6. **Never commit secrets**: `.env`, keys, credentials, tokens. Use `.env.example` for new variables.
 7. **Changes reach `main` only through a pull request** reviewed by a teammate. Never merge a PR the user opened without a review.
-8. Commit messages: short, imperative, optionally typed (`feat: add plate validation`). Commit only when the user asks, or via the commands below.
+8. Commit messages must follow Conventional Commits as a **single line**: `<type>(<optional scope>): <lower-case imperative description>`, max 72 characters, no body, no full stop. Types: feat, fix, docs, test, chore, refactor, style, ci. Example: `feat(vehicles): add plate validation`. Only the attribution trailer may follow. Commit only when the user asks, or via the commands below. CI rejects other formats.
 
 ## Talking to the user
 
@@ -41,6 +41,10 @@ Stack: React + TypeScript (Vite) frontend, Node.js + Express + TypeScript backen
 | `/save <message>`    | Commit your work on your branch (never on `main`)    |
 | `/ship`              | Push your branch and open a pull request             |
 | `/release <version>` | Maintainers only: tag a release from `main`          |
+
+## CI and Docker integrity
+
+Never make CI pass by weakening it. Do not skip, delete or loosen tests, add `eslint-disable` / `@ts-ignore` / `continue-on-error`, lower coverage thresholds, or edit `.github/`, Dockerfiles, `docker-compose.yml`, `eslint.config.js` or root `package.json` unless the user's task is about them (these need maintainer approval, see `.github/CODEOWNERS`). If a check fails, fix the cause or explain it to the user. Keep every Docker `HEALTHCHECK` and the `/api/health` endpoint working.
 
 ## Quality
 

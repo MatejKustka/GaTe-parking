@@ -122,13 +122,13 @@ Sprints, feature areas and task ownership are in [docs/PBS.md](docs/PBS.md).
 
 ## Tech stack
 
-| Part     | Technology                                                                                                            |
-| -------- | --------------------------------------------------------------------------------------------------------------------- |
-| Frontend | React, TypeScript, Vite, Vitest + Testing Library                                                                     |
-| Backend  | Node.js, Express, TypeScript, Mongoose, Vitest + Supertest                                                            |
-| Database | MongoDB                                                                                                               |
-| Tooling  | npm workspaces, ESLint, Prettier, Docker Compose                                                                      |
-| CI/CD    | GitHub Actions (checks and Docker build on PRs, images and release on `v*` tags), Claude AI review on PRs, Dependabot |
+| Part     | Technology                                                                                                                                   |
+| -------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| Frontend | React, TypeScript, Vite, Vitest + Testing Library                                                                                            |
+| Backend  | Node.js, Express, TypeScript, Mongoose, Vitest + Supertest                                                                                   |
+| Database | MongoDB                                                                                                                                      |
+| Tooling  | npm workspaces, ESLint, Prettier, Docker Compose                                                                                             |
+| CI/CD    | GitHub Actions (checks and Docker build on PRs, images and release on `v*` tags), Copilot code review on PRs, CodeQL + npm audit, Dependabot |
 
 ## Getting started
 

@@ -13,12 +13,21 @@ New here? Start with [docs/ONBOARDING.md](docs/ONBOARDING.md).
 
 ## Commits
 
-Short imperative subject line, optionally prefixed with the type:
+Use [Conventional Commits](https://www.conventionalcommits.org), **one line only**, no body:
 
 ```
-feat: add vehicle plate validation
-fix: reject duplicate plates for active users
+<type>: <short description in lower case>
+<type>(<scope>): <short description in lower case>
 ```
+
+- Types: `feat`, `fix`, `docs`, `test`, `chore`, `refactor`, `style`, `ci`.
+- Imperative mood, lower case, no full stop, 72 characters max.
+- Optional scope in brackets: `feat(reservations): add time window validation`.
+- Good: `fix(auth): reject expired tokens`. Bad: `Fixed stuff`, `WIP`, `Update README.md.`
+- One logical change per commit.
+- The attribution line (`Co-Authored-By: ...`) that Claude adds at the end is allowed; it is not a body.
+
+CI runs commitlint on every commit in your PR (`Commit messages` check). `/save` writes a valid message for you. To fix a bad message after the fact, ask Claude; do not rewrite history yourself.
 
 ## Pull requests
 
@@ -31,9 +40,17 @@ fix: reject duplicate plates for active users
 ## Review and CI
 
 - Every PR runs CI (format, lint, type check, tests, build, Docker build). It must be green.
-- Claude reviews every PR automatically. Address its comments or reply why not.
+- Enable GitHub Copilot code review (repo Settings, Rules, add the Copilot review rule) so a bot reviews each PR. Address its comments or reply why not.
 - `main` is protected by a GitHub ruleset (see `.github/rulesets/main-protection.json`): PR required, 1 approval, green CI.
 - Releases: a maintainer runs `/release vX.Y.Z`; the Release workflow publishes Docker images to GHCR and creates the GitHub release.
+
+## CI and Docker rules
+
+- **CI must be green to merge**: `Check` (format, lint, types, tests with 70% coverage minimum, build), `Commit messages` (Conventional Commits), `Docker build`, and `Smoke test` (the full stack starts and `/api/health` answers). Security checks (`npm audit`, CodeQL) also run.
+- **Never weaken the checks to get a PR through.** No skipped or deleted tests, no `eslint-disable`/`@ts-ignore` to hide real problems, no lowered coverage thresholds, no `continue-on-error`, no editing workflows to bypass a failure. Fix the cause instead.
+- Files that control CI, Docker, tooling and Claude rules (`.github/`, Dockerfiles, `docker-compose.yml`, `eslint.config.js`, root `package.json`, `.claude/`, `CLAUDE.md`) are listed in `.github/CODEOWNERS`: a maintainer must approve any change to them.
+- **Docker**: only `backend/Dockerfile`, `frontend/Dockerfile` and `docker-compose.yml` define images and the local stack. Images build from the repo root with `npm ci`, run as a non-root user, and contain no dev dependencies or secrets. Every image keeps its `HEALTHCHECK`. Compose waits for healthy dependencies (Mongo, then backend, then frontend).
+- Health: `GET /api/health` returns 200 `{status:"ok",db:"up"}` or 503 when MongoDB is down. Keep it working.
 
 ## Using Claude Code
 

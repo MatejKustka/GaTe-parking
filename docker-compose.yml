@@ -9,6 +9,11 @@ services:
       - '27017:27017'
     volumes:
       - mongo-data:/data/db
+    healthcheck:
+      test: ['CMD', 'mongosh', '--quiet', '--eval', "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   backend:
     build:
@@ -21,7 +26,8 @@ services:
     ports:
       - '8080:8080'
     depends_on:
-      - mongo
+      mongo:
+        condition: service_healthy
 
   frontend:
     build:
@@ -30,7 +36,8 @@ services:
     ports:
       - '3000:80'
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
 
 volumes:
   mongo-data:

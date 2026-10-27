@@ -12,6 +12,8 @@ Follow these steps in order. Never skip the first-time setup; it prevents most g
 | [GitHub CLI](https://cli.github.com)                              | Lets `/ship` open pull requests | `gh --version`          |
 | [Claude Code](https://claude.com/claude-code)                     | Handles git for you             | `claude --version`      |
 
+Activate your free Copilot via [GitHub Education](https://education.github.com/pack) (student pack) so you can use Copilot code review on your own PRs.
+
 Then log in once: `gh auth login` (choose GitHub.com, HTTPS, login with browser).
 
 Tell git who you are:
@@ -53,7 +55,7 @@ Claude reads `CLAUDE.md` and knows the team rules. You never need to type git co
 5. `/save` commits your work.
 6. `/sync` brings in your teammates' changes. Do this at least daily and before shipping.
 7. `/ship` pushes your branch and opens a pull request.
-8. The AI reviewer comments, and a teammate must approve. Fix feedback with `/save` then `/ship` again.
+8. The Copilot reviewer comments, and a teammate must approve. Fix feedback with `/save` then `/ship` again.
 9. After the PR is merged, run `/start-task` for your next task. Always start from a fresh branch.
 
 ## 5. Rules that keep us from colliding

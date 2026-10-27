@@ -10,7 +10,7 @@ Student team project (team 3) with 11 contributors, many of whom are new to git.
 4. **Sync before you start and before you push**: fetch, then merge `origin/main` into the branch. Resolve conflicts with the user, never by discarding their or a teammate's changes.
 5. **Only touch your own area.** Stay inside the files needed for the user's PBS task. Do not reformat, rename or reorganize other people's code, and do not change shared contracts (API shapes, DB schema, data model) unless the task says so. If a change is needed outside the task, tell the user to talk to the team first.
 6. **Never commit secrets**: `.env`, keys, credentials, tokens. Use `.env.example` for new variables.
-7. **Changes reach `main` only through a pull request** reviewed by a teammate. Never merge a PR the user opened without a review.
+7. **Changes reach `main` only through a pull request** reviewed by a teammate (rules: `docs/PULL_REQUESTS.md`). PR titles are single-line Conventional Commits. Never approve a PR on the user's behalf, and never merge a PR that is unreviewed, red or has unresolved conversations. Keep PRs to one topic and under ~400 changed lines.
 8. Commit messages must follow Conventional Commits as a **single line**: `<type>(<optional scope>): <lower-case imperative description>`, max 72 characters, no body, no full stop. Types: feat, fix, docs, test, chore, refactor, style, ci. Example: `feat(vehicles): add plate validation`. Only the attribution trailer may follow. Commit only when the user asks, or via the commands below. CI rejects other formats.
 
 ## Talking to the user

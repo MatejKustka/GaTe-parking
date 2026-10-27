@@ -31,11 +31,13 @@ CI runs commitlint on every commit in your PR (`Commit messages` check). `/save`
 
 ## Pull requests
 
-- One topic per PR, linked to the PBS task or user story it implements.
-- Fill in the PR template.
-- At least one teammate reviews before merge. Do not merge your own PR without review.
-- Backend changes that affect the API need the API docs in `docs/` updated.
-- Frontend and backend owners must not change each other's agreed contracts unilaterally (see PBS: spec changes go through the analyst).
+Nobody pushes to `main`; everything goes through a PR with a review, a green CI and a squash merge. The full rules are in [docs/PULL_REQUESTS.md](docs/PULL_REQUESTS.md). Read them before your first PR. Short version:
+
+- PR title is a Conventional Commit; description follows the template and links the user story or PBS task.
+- One topic, under ~400 changed lines.
+- One teammate approval (not the last pusher), all conversations resolved, Copilot comments answered.
+- Squash merge only, after CI is green and the branch is up to date.
+- Backend changes that affect the API need `docs/api/` updated. Frontend and backend owners must not change each other's agreed contracts unilaterally (spec changes go through the analyst).
 
 ## Review and CI
 
@@ -46,7 +48,7 @@ CI runs commitlint on every commit in your PR (`Commit messages` check). `/save`
 
 ## CI and Docker rules
 
-- **CI must be green to merge**: `Check` (format, lint, types, tests with 70% coverage minimum, build), `Commit messages` (Conventional Commits), `Docker build`, and `Smoke test` (the full stack starts and `/api/health` answers). Security checks (`npm audit`, CodeQL) also run.
+- **CI must be green to merge**: `Check` (format, lint, types, tests with 70% coverage minimum, build), `Commit messages` and `PR title` (Conventional Commits), `Docker build`, and `Smoke test` (the full stack starts and `/api/health` answers). Security checks (`npm audit`, CodeQL) also run.
 - **Never weaken the checks to get a PR through.** No skipped or deleted tests, no `eslint-disable`/`@ts-ignore` to hide real problems, no lowered coverage thresholds, no `continue-on-error`, no editing workflows to bypass a failure. Fix the cause instead.
 - Files that control CI, Docker, tooling and Claude rules (`.github/`, Dockerfiles, `docker-compose.yml`, `eslint.config.js`, root `package.json`, `.claude/`, `CLAUDE.md`) are listed in `.github/CODEOWNERS`: a maintainer must approve any change to them.
 - **Docker**: only `backend/Dockerfile`, `frontend/Dockerfile` and `docker-compose.yml` define images and the local stack. Images build from the repo root with `npm ci`, run as a non-root user, and contain no dev dependencies or secrets. Every image keeps its `HEALTHCHECK`. Compose waits for healthy dependencies (Mongo, then backend, then frontend).

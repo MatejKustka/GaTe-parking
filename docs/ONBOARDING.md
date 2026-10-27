@@ -65,6 +65,7 @@ Claude reads `CLAUDE.md` and knows the team rules. You never need to type git co
 - **Do not edit other people's files or shared contracts** (API shapes, DB schema, data model) without talking to the team first.
 - **Never commit `.env` or any secret.** Put new variables in `.env.example` with empty/placeholder values.
 - **If git looks scary, stop and ask Claude** to explain the state of your work. Your work is almost always safe. Do not use `--force` or "reset" on your own.
+- Read [docs/PULL_REQUESTS.md](docs/PULL_REQUESTS.md) before your first pull request.
 - Our scope is decided in `docs/SCOPE.md`. Start with your user story in the README.
 
 ## 6. Where things are

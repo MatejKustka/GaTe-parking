@@ -1,0 +1,353 @@
+{
+  "employees": [
+    {
+      "userId": "U001",
+      "firstName": "Anna",
+      "lastName": "Novak",
+      "email": "anna.novak@example.com",
+      "role": "Employee",
+      "state": "active"
+    },
+    {
+      "userId": "U002",
+      "firstName": "Petr",
+      "lastName": "Svoboda",
+      "email": "petr.svoboda@example.com",
+      "role": "Employee",
+      "state": "active"
+    },
+    {
+      "userId": "U003",
+      "firstName": "Jana",
+      "lastName": "Vesela",
+      "email": "jana.vesela@example.com",
+      "role": "Employee",
+      "state": "active"
+    },
+    {
+      "userId": "U004",
+      "firstName": "Martin",
+      "lastName": "Dvorak",
+      "email": "martin.dvorak@example.com",
+      "role": "Employee",
+      "state": "active"
+    },
+    {
+      "userId": "U005",
+      "firstName": "Eva",
+      "lastName": "Prochazka",
+      "email": "eva.prochazka@example.com",
+      "role": "Administrator",
+      "state": "active"
+    },
+    {
+      "userId": "U006",
+      "firstName": "Tomas",
+      "lastName": "Horak",
+      "email": "tomas.horak@example.com",
+      "role": "Employee",
+      "state": "inactive"
+    }
+  ],
+  "vehicles": [
+    {
+      "licensePlate": "1AB2345",
+      "engineType": "Combustion",
+      "userId": "U001",
+      "brand": "Skoda",
+      "model": "Octavia",
+      "color": "Blue",
+      "state": "active"
+    },
+    {
+      "licensePlate": "2AC5678",
+      "engineType": "EV",
+      "userId": "U002",
+      "brand": "Tesla",
+      "model": "Model 3",
+      "color": "White",
+      "state": "active"
+    },
+    {
+      "licensePlate": "3AD9012",
+      "engineType": "Hybrid",
+      "userId": "U003",
+      "brand": "Toyota",
+      "model": "Corolla",
+      "color": "Silver",
+      "state": "active"
+    },
+    {
+      "licensePlate": "4AE3456",
+      "engineType": "EV",
+      "userId": "U004",
+      "brand": "Hyundai",
+      "model": "Ioniq 5",
+      "color": "Black",
+      "state": "active"
+    },
+    {
+      "licensePlate": "5AF7890",
+      "engineType": "Combustion",
+      "userId": "U005",
+      "brand": "Volkswagen",
+      "model": "Golf",
+      "color": "Grey",
+      "state": "active"
+    },
+    {
+      "licensePlate": "6AG1234",
+      "engineType": "Hybrid",
+      "userId": "U001",
+      "brand": "Skoda",
+      "model": "Superb",
+      "color": "Black",
+      "state": "pending_approval"
+    },
+    {
+      "licensePlate": "7AH5678",
+      "engineType": "Combustion",
+      "userId": "U006",
+      "brand": "Ford",
+      "model": "Focus",
+      "color": "Red",
+      "state": "blocked"
+    }
+  ],
+  "parkingLots": [
+    {
+      "id": "LOT01",
+      "parkingSpotCount": 4,
+      "hasEVSupport": true,
+      "state": true,
+      "occupancyCount": 2,
+      "location": "Prague Office - Main Garage"
+    },
+    {
+      "id": "LOT02",
+      "parkingSpotCount": 3,
+      "hasEVSupport": false,
+      "state": true,
+      "occupancyCount": 1,
+      "location": "Prague Office - Outdoor Lot"
+    },
+    {
+      "id": "LOT03",
+      "parkingSpotCount": 2,
+      "hasEVSupport": true,
+      "state": false,
+      "occupancyCount": 0,
+      "location": "Prague Office - North Garage"
+    }
+  ],
+  "parkingSpots": [
+    {
+      "id": "P001",
+      "parkingLotId": "LOT01",
+      "hasCharger": false,
+      "isOccupied": true,
+      "isOperational": true,
+      "isReserved": false
+    },
+    {
+      "id": "P002",
+      "parkingLotId": "LOT01",
+      "hasCharger": false,
+      "isOccupied": false,
+      "isOperational": true,
+      "isReserved": true
+    },
+    {
+      "id": "P003",
+      "parkingLotId": "LOT01",
+      "hasCharger": true,
+      "isOccupied": true,
+      "isOperational": true,
+      "isReserved": false
+    },
+    {
+      "id": "P004",
+      "parkingLotId": "LOT01",
+      "hasCharger": true,
+      "isOccupied": false,
+      "isOperational": true,
+      "isReserved": true
+    },
+    {
+      "id": "P005",
+      "parkingLotId": "LOT02",
+      "hasCharger": false,
+      "isOccupied": true,
+      "isOperational": true,
+      "isReserved": false
+    },
+    {
+      "id": "P006",
+      "parkingLotId": "LOT02",
+      "hasCharger": false,
+      "isOccupied": false,
+      "isOperational": true,
+      "isReserved": false
+    },
+    {
+      "id": "P007",
+      "parkingLotId": "LOT02",
+      "hasCharger": false,
+      "isOccupied": false,
+      "isOperational": false,
+      "isReserved": false
+    },
+    {
+      "id": "P008",
+      "parkingLotId": "LOT03",
+      "hasCharger": true,
+      "isOccupied": false,
+      "isOperational": true,
+      "isReserved": false
+    },
+    {
+      "id": "P009",
+      "parkingLotId": "LOT03",
+      "hasCharger": true,
+      "isOccupied": false,
+      "isOperational": true,
+      "isReserved": false
+    }
+  ],
+  "reservations": [
+    {
+      "reservationId": "R001",
+      "parkingSpotId": "P001",
+      "vehicleId": "1AB2345",
+      "userId": "U001",
+      "startTime": "2026-10-26T08:00:00+01:00",
+      "endTime": "2026-10-26T17:00:00+01:00",
+      "state": "completed"
+    },
+    {
+      "reservationId": "R002",
+      "parkingSpotId": "P003",
+      "vehicleId": "2AC5678",
+      "userId": "U002",
+      "startTime": "2026-10-26T09:00:00+01:00",
+      "endTime": "2026-10-26T16:00:00+01:00",
+      "state": "completed"
+    },
+    {
+      "reservationId": "R003",
+      "parkingSpotId": "P002",
+      "vehicleId": "3AD9012",
+      "userId": "U003",
+      "startTime": "2026-10-28T08:30:00+01:00",
+      "endTime": "2026-10-28T17:00:00+01:00",
+      "state": "reserved"
+    },
+    {
+      "reservationId": "R004",
+      "parkingSpotId": "P004",
+      "vehicleId": "4AE3456",
+      "userId": "U004",
+      "startTime": "2026-10-28T09:00:00+01:00",
+      "endTime": "2026-10-28T18:00:00+01:00",
+      "state": "reserved"
+    },
+    {
+      "reservationId": "R005",
+      "parkingSpotId": "P005",
+      "vehicleId": "5AF7890",
+      "userId": "U005",
+      "startTime": "2026-10-27T08:00:00+01:00",
+      "endTime": "2026-10-27T16:00:00+01:00",
+      "state": "completed"
+    },
+    {
+      "reservationId": "R006",
+      "parkingSpotId": "P006",
+      "vehicleId": "1AB2345",
+      "userId": "U001",
+      "startTime": "2026-10-29T08:00:00+01:00",
+      "endTime": "2026-10-29T15:00:00+01:00",
+      "state": "cancelled"
+    }
+  ],
+  "visits": [
+    {
+      "visitId": "V001",
+      "vehicleId": "1AB2345",
+      "userId": "U001",
+      "parkingLotId": "LOT01",
+      "parkingSpotId": "P001",
+      "reservationId": "R001",
+      "entryTime": "2026-10-26T07:56:00+01:00",
+      "exitTime": "2026-10-26T16:42:00+01:00",
+      "state": "completed"
+    },
+    {
+      "visitId": "V002",
+      "vehicleId": "2AC5678",
+      "userId": "U002",
+      "parkingLotId": "LOT01",
+      "parkingSpotId": "P003",
+      "reservationId": "R002",
+      "entryTime": "2026-10-26T08:51:00+01:00",
+      "exitTime": "2026-10-26T15:48:00+01:00",
+      "state": "completed"
+    },
+    {
+      "visitId": "V003",
+      "vehicleId": "5AF7890",
+      "userId": "U005",
+      "parkingLotId": "LOT02",
+      "parkingSpotId": "P005",
+      "reservationId": "R005",
+      "entryTime": "2026-10-27T07:52:00+01:00",
+      "exitTime": "2026-10-27T15:39:00+01:00",
+      "state": "completed"
+    },
+    {
+      "visitId": "V004",
+      "vehicleId": "2AC5678",
+      "userId": "U002",
+      "parkingLotId": "LOT01",
+      "parkingSpotId": "P003",
+      "reservationId": null,
+      "entryTime": "2026-10-27T18:05:00+01:00",
+      "exitTime": null,
+      "state": "active"
+    }
+  ],
+  "chargers": [
+    {
+      "chargerId": "CH001",
+      "parkingSpotId": "P003",
+      "chargerType": "Type 2",
+      "maxPowerKw": 22,
+      "state": "occupied",
+      "isOperational": true
+    },
+    {
+      "chargerId": "CH002",
+      "parkingSpotId": "P004",
+      "chargerType": "Type 2",
+      "maxPowerKw": 22,
+      "state": "available",
+      "isOperational": true
+    },
+    {
+      "chargerId": "CH003",
+      "parkingSpotId": "P008",
+      "chargerType": "Type 2",
+      "maxPowerKw": 11,
+      "state": "unavailable",
+      "isOperational": true
+    },
+    {
+      "chargerId": "CH004",
+      "parkingSpotId": "P009",
+      "chargerType": "Type 2",
+      "maxPowerKw": 22,
+      "state": "out_of_service",
+      "isOperational": false
+    }
+  ]
+}

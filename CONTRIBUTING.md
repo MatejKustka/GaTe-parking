@@ -1,82 +1,133 @@
 # Contributing
 
-Team 3 workflow for GaŤe Parking.
+Everything a team member needs to work on GaŤe Parking: setup, daily workflow, rules for commits and pull requests, CI, and releases. Read it once, top to bottom, before your first change.
 
-New here? Start with [docs/ONBOARDING.md](docs/ONBOARDING.md).
+## 1. Setup (once)
 
-## Branches
+| Tool                                                              | Why                             | Check                   |
+| ----------------------------------------------------------------- | ------------------------------- | ----------------------- |
+| [Git](https://git-scm.com)                                        | Version control                 | `git --version`         |
+| [Node.js 22](https://nodejs.org)                                  | Runs frontend and backend       | `node -v` (22 or newer) |
+| [Docker Desktop](https://www.docker.com/products/docker-desktop/) | Local MongoDB                   | `docker --version`      |
+| [GitHub CLI](https://cli.github.com)                              | Lets `/ship` open pull requests | `gh --version`          |
+| [Claude Code](https://claude.com/claude-code)                     | Handles git for you             | `claude --version`      |
 
-- `main` is always working. Do not push to it directly; open a pull request.
-- Branch from `main` and name branches `<type>/<short-description>`, where type is one of `feat`, `fix`, `docs`, `test`, `chore`.
-  Examples: `feat/vehicle-registration`, `fix/plate-validation`.
-- Keep branches short-lived and rebase or merge `main` before opening the PR.
+- Log in once: `gh auth login` (GitHub.com, HTTPS, browser).
+- Claim your free Copilot via [GitHub Education](https://education.github.com/pack) so Copilot can review your PRs.
+- Tell git who you are:
+  ```
+  git config --global user.name "Your Name"
+  git config --global user.email "your-github-email@example.com"
+  ```
+- Ask a maintainer to add you as a collaborator on the repo (Write role).
 
-## Commits
-
-Use [Conventional Commits](https://www.conventionalcommits.org), **one line only**, no body:
+Get the project and start it:
 
 ```
-<type>: <short description in lower case>
-<type>(<scope>): <short description in lower case>
+git clone https://github.com/MatejKustka/GaTe-parking.git
+cd GaTe-parking
+npm install
+cp .env.example .env
+docker compose up -d mongo
+npm run dev
+```
+
+Frontend: http://localhost:3000. Backend health: http://localhost:8080/api/health. Then open Claude Code in the folder with `claude`; it reads `CLAUDE.md` and knows the team rules.
+
+## 2. Daily workflow
+
+1. Pick your task (your user story in the README, or `docs/PBS.md`). Work only on your own task.
+2. `/start-task feat/short-name` creates your branch from the latest `main`.
+3. Write code (ask Claude for help). Stay inside your task.
+4. `npm run check` must pass (format, lint, types, tests, build).
+5. `/save` commits. `/sync` brings in your teammates' changes (do it daily and before shipping).
+6. `/ship` pushes the branch and opens a pull request.
+7. Fix review feedback with `/save` then `/ship`. After the merge, start the next task with a fresh `/start-task`.
+
+Other commands: `npm run dev` (start everything), `npm run format` (auto-format), `npm run lint:fix`, `docker compose up --build` (full stack in containers).
+
+Rules that keep us from colliding:
+
+- **Never work on `main`.** One task, one branch, one pull request.
+- **Do not edit other people's files or shared contracts** (API shapes, DB schema, data model) without talking to the team first. Backend changes that affect the API need `docs/api/` updated.
+- **Never commit `.env` or any secret.** New variables go in `.env.example` with empty or placeholder values.
+- **If git looks scary, stop and ask Claude** to explain. Your work is almost always safe. Never use `--force` or "reset" on your own.
+- Scope is decided in `docs/SCOPE.md`.
+
+Branch names: `<type>/<short-description>` with type `feat`, `fix`, `docs`, `test` or `chore` (e.g. `feat/vehicle-registration`).
+
+## 3. Commits
+
+[Conventional Commits](https://www.conventionalcommits.org), **one line only**, no body:
+
+```
+<type>(<optional scope>): <short description in lower case>
+feat(reservations): add time window validation
 ```
 
 - Types: `feat`, `fix`, `docs`, `test`, `chore`, `refactor`, `style`, `ci`.
-- Imperative mood, lower case, no full stop, 72 characters max.
-- Optional scope in brackets: `feat(reservations): add time window validation`.
+- Imperative, lower case, no full stop, 72 characters max. One logical change per commit.
 - Good: `fix(auth): reject expired tokens`. Bad: `Fixed stuff`, `WIP`, `Update README.md.`
-- One logical change per commit.
-- The attribution line (`Co-Authored-By: ...`) that Claude adds at the end is allowed; it is not a body.
+- The `Co-Authored-By: ...` line Claude adds at the end is allowed.
+- Dependabot's `chore(deps): ...` commits are exempt.
 
-CI runs commitlint on every commit in your PR (`Commit messages` check). `/save` writes a valid message for you. To fix a bad message after the fact, ask Claude; do not rewrite history yourself.
+CI checks every commit in your PR. `/save` writes a valid message for you. To fix a bad one, ask Claude; do not rewrite history yourself.
 
-## Pull requests
+## 4. Pull requests
 
-Nobody pushes to `main`; everything goes through a PR with a review, a green CI and a squash merge. The full rules are in [docs/PULL_REQUESTS.md](docs/PULL_REQUESTS.md). Read them before your first PR. Short version:
+Nobody pushes to `main`. Everything goes through a pull request (PR) with a review, green CI and a squash merge. GitHub enforces most of this through the ruleset in `.github/rulesets/main-protection.json`.
 
-- PR title is a Conventional Commit; description follows the template and links the user story or PBS task.
-- One topic, under ~400 changed lines.
-- One teammate approval (not the last pusher), all conversations resolved, Copilot comments answered.
-- Squash merge only, after CI is green and the branch is up to date.
-- Backend changes that affect the API need `docs/api/` updated. Frontend and backend owners must not change each other's agreed contracts unilaterally (spec changes go through the analyst).
+**Opening (`/ship` does it):**
 
-## Review and CI
+- Title is a Conventional Commit, e.g. `feat(reservations): add time window validation`. Squash merging makes the title the commit on `main`.
+- Fill in the template: what, why (link the user story or PBS task, e.g. `US 5`), how to test, checklist.
+- One topic only, under about 400 changed lines. Bigger? Split it. No drive-by refactors or reformatting of other people's files.
+- Open as a draft while unfinished; mark it ready when CI is green and you reviewed your own diff. Add a screenshot for UI changes.
 
-- Every PR runs CI (format, lint, type check, tests, build, Docker build). It must be green.
-- Enable GitHub Copilot code review (repo Settings, Rules, add the Copilot review rule) so a bot reviews each PR. Address its comments or reply why not.
-- `main` is protected by a GitHub ruleset (see `.github/rulesets/main-protection.json`): PR required, 1 approval, green CI.
-- Releases: see [docs/RELEASING.md](docs/RELEASING.md). Maintainers run Actions -> Release -> Run workflow (or `/release vX.Y.Z`); the workflow publishes Docker images to GHCR and creates the GitHub release.
+**Review (enforced):**
 
-## CI and Docker rules
+- One approval from a teammate who did not push the last commit. New commits dismiss earlier approvals.
+- All review conversations must be resolved. Copilot reviews every PR and again after each push; treat its comments as a free first review and fix them or reply why not.
+- Changes to CI, Docker, tooling and Claude rules (`.github/CODEOWNERS`) also need a maintainer's approval.
+- Reviewers: read the diff, run the branch if the change is non-trivial, check it against the user story. Be specific and kind. Review within one working day. Approve only what you read.
 
-- **CI must be green to merge**: `Check` (format, lint, types, tests with 70% coverage minimum, build), `Commit messages` and `PR title` (Conventional Commits), `Docker build`, and `Smoke test` (the full stack starts and `/api/health` answers). Security checks (`npm audit`, CodeQL) also run.
-- **Never weaken the checks to get a PR through.** No skipped or deleted tests, no `eslint-disable`/`@ts-ignore` to hide real problems, no lowered coverage thresholds, no `continue-on-error`, no editing workflows to bypass a failure. Fix the cause instead.
-- Files that control CI, Docker, tooling and Claude rules (`.github/`, Dockerfiles, `docker-compose.yml`, `eslint.config.js`, root `package.json`, `.claude/`, `CLAUDE.md`) are listed in `.github/CODEOWNERS`: a maintainer must approve any change to them.
-- **Docker**: only `backend/Dockerfile`, `frontend/Dockerfile` and `docker-compose.yml` define images and the local stack. Images build from the repo root with `npm ci`, run as a non-root user, and contain no dev dependencies or secrets. Every image keeps its `HEALTHCHECK`. Compose waits for healthy dependencies (Mongo, then backend, then frontend).
-- Health: `GET /api/health` returns 200 `{status:"ok",db:"up"}` or 503 when MongoDB is down. Keep it working.
+**Merging (enforced):** `Check`, `Commit messages`, `PR title`, `Docker build` and `Smoke test` green, branch up to date with `main`, squash merge only. The author merges their own approved PR. Never merge a red or conflicted PR and never bypass the rules, not even for a tiny fix.
 
-## Using Claude Code
+## 5. CI and Docker
 
-The repo ships rules in `CLAUDE.md` and slash commands in `.claude/commands/`, so you do not need to know git commands:
+- **Never weaken the checks to get a PR through.** No skipped or deleted tests, no `eslint-disable` / `@ts-ignore` to hide real problems, no lowered coverage thresholds (70% minimum), no `continue-on-error`, no editing workflows to bypass a failure. Fix the cause.
+- CI jobs: `Check` (format, lint, types, tests, build), `Commit messages` and `PR title` (Conventional Commits), `Docker build`, `Smoke test` (the full stack starts and `/api/health` answers). `npm audit` and CodeQL run too.
+- Files that control CI, Docker, tooling and Claude rules (`.github/`, Dockerfiles, `docker-compose.yml`, `eslint.config.js`, root `package.json`, `.claude/`, `CLAUDE.md`) are in `.github/CODEOWNERS`; a maintainer must approve changes to them.
+- Docker: only `backend/Dockerfile`, `frontend/Dockerfile` and `docker-compose.yml` define images and the local stack. Images build from the repo root with `npm ci`, run as non-root, contain no dev dependencies or secrets, and keep their `HEALTHCHECK`. Compose waits for healthy dependencies.
+- `GET /api/health` returns 200 `{status:"ok",db:"up"}`, or 503 when MongoDB is down. Keep it working.
 
-1. `/start-task feat/my-task` to begin on a new branch
-2. work, then `/save` to commit
-3. `/sync` to pull in teammates' changes
-4. `/ship` to push and open a pull request
+## 6. Releases
 
-Maintainers use `/release v0.1.0` to start a release (see `docs/RELEASING.md`).
+A release is a version tag on `main` plus a GitHub release and two Docker images on `ghcr.io`. Done once per sprint, by maintainers only (usernames in `.github/maintainers.txt`; the workflow refuses everyone else).
 
-## Project layout
+| Version  | When                                |
+| -------- | ----------------------------------- |
+| `v0.1.0` | Sprint 1 review (before the demo)   |
+| `v0.2.0` | Sprint 2 review                     |
+| `v0.3.0` | Sprint 3 review                     |
+| `v1.0.0` | Final submission                    |
+| `v0.x.1` | Hotfix between sprints (patch bump) |
 
-| Folder      | Purpose                                                 |
-| ----------- | ------------------------------------------------------- |
-| `backend/`  | Backend application, DB migrations, backend tests       |
-| `frontend/` | Frontend application and its tests                      |
-| `docs/`     | PBS, business model, API docs, wireframes, test reports |
+**How:** repo, Actions, **Release**, Run workflow, type the version. (Or `/release v0.1.0` in Claude Code, or push the tag by hand: `git tag -a v0.1.0 -m v0.1.0 && git push origin v0.1.0`.) The workflow checks the version format and that it is new, that you are a listed maintainer, that the tag is on `main`, and that `main` is green. Then it publishes the images and the release (`0.x` as pre-release). Release notes are generated from merged PR titles.
 
-## Secrets
+**If something goes wrong:** never delete or move a tag or release and never reuse a version; publish the next patch (`v0.1.1`). If the workflow failed before creating the tag, fix the cause and run it again.
 
-Never commit `.env` files, keys or credentials. Add new variables to `.env.example` with empty values.
+## 7. Project layout
 
-## Bugs
+| Folder      | Purpose                                                           |
+| ----------- | ----------------------------------------------------------------- |
+| `backend/`  | Node.js + Express + MongoDB API and tests                         |
+| `frontend/` | React + TypeScript app and tests                                  |
+| `docs/`     | `SCOPE.md`, `PBS.md`, API docs, wireframes, business model, tests |
 
-Use the bug report issue template and link the defect to the requirement or user story it violates.
+## 8. Maintainer setup (once, in GitHub settings)
+
+- Settings, Rules, Rulesets: import `.github/rulesets/main-protection.json` and `tag-protection.json`. Enable the Copilot code review rule there.
+- Settings, General, Pull Requests: squash merging only, default message "Pull request title", auto-delete head branches.
+- Settings, Collaborators: teammates on **Write**, one or two maintainers on **Admin**. Rulesets treat people by role, so if everyone is Admin everyone can bypass the rules and the protection means nothing. The release check in `maintainers.txt` works regardless.
+- Secrets: never commit `.env`, keys or credentials. Bugs: use the bug report issue template and link the requirement or user story.

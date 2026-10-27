@@ -1,4 +1,6 @@
 export default {
+  // Dependabot writes its own messages (capitals, long titles, a body); do not fail on them.
+  ignores: [(message) => /^chore\(deps(-dev)?\):/.test(message)],
   extends: ["@commitlint/config-conventional"],
   rules: {
     "type-enum": [

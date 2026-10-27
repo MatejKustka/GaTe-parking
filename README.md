@@ -132,7 +132,7 @@ Sprints, feature areas and task ownership are in [docs/PBS.md](docs/PBS.md).
 
 ## Getting started
 
-**New to the team? Read [docs/ONBOARDING.md](docs/ONBOARDING.md) first and follow it step by step.**
+**New to the team? Read [CONTRIBUTING.md](CONTRIBUTING.md) first and follow it step by step.**
 
 ```
 npm install
@@ -148,7 +148,7 @@ Frontend on http://localhost:3000, backend on http://localhost:8080/api/health. 
 ```
 backend/      Backend app, DB migrations, backend tests
 frontend/     Frontend app and tests
-docs/         PBS, scope, onboarding, API docs, business model, wireframes, test reports
+docs/         PBS, scope, API docs, business model, wireframes, test reports
 .github/      PR and issue templates
 ```
 

@@ -22,7 +22,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Image name prefix (lowercase)
         run: echo "IMAGE_PREFIX=ghcr.io/${GITHUB_REPOSITORY,,}" >> "$GITHUB_ENV"
-      - uses: docker/build-push-action@v6
+      - uses: docker/build-push-action@v7
         with:
           context: .
           file: backend/Dockerfile
@@ -30,7 +30,7 @@ jobs:
           tags: |
             ${{ env.IMAGE_PREFIX }}-backend:${{ github.ref_name }}
             ${{ env.IMAGE_PREFIX }}-backend:latest
-      - uses: docker/build-push-action@v6
+      - uses: docker/build-push-action@v7
         with:
           context: .
           file: frontend/Dockerfile

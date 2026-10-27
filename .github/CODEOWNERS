@@ -1,6 +1,5 @@
 # Changes to these paths need approval from a maintainer (enforced by the main ruleset).
 # Add more maintainers like: /.github/ @MatejKustka @another-username
-* @MatejKustka
 /.github/ @MatejKustka
 /.claude/ @MatejKustka
 /CLAUDE.md @MatejKustka
@@ -12,4 +11,3 @@
 /package.json @MatejKustka
 /package-lock.json @MatejKustka
 /tsconfig.base.json @MatejKustka
-/.github/maintainers.txt @MatejKustka

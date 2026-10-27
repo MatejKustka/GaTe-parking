@@ -66,7 +66,8 @@ jobs:
             result=$(gh api "repos/$GITHUB_REPOSITORY/commits/$SHA/check-runs?per_page=100" \
               --jq "[.check_runs[] | select(.name==\"$check\")] | sort_by(.started_at) | last | .conclusion")
             echo "$check: $result"
-            if [ "$check" = "Commit messages" ] && [ "$result" = "null" ]; then continue; fi
+            # "Commit messages" only runs on pull requests, so on main it is skipped or absent.
+            if [ "$check" = "Commit messages" ] && { [ "$result" = "null" ] || [ "$result" = "skipped" ]; }; then continue; fi
             if [ "$result" != "success" ]; then echo "::error::'$check' is not green on main ($SHA)"; exit 1; fi
           done
 

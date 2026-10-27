@@ -9,7 +9,12 @@ export default {
       ["feat", "fix", "docs", "test", "chore", "refactor", "style", "ci"],
     ],
     "header-max-length": [2, "always", 72],
-    "subject-case": [2, "always", "lower-case"],
+    // Start with a lower-case word, but allow names and acronyms later (JWT, GaŤe, API).
+    "subject-case": [
+      2,
+      "never",
+      ["sentence-case", "start-case", "pascal-case", "upper-case"],
+    ],
     "subject-full-stop": [2, "never", "."],
     "body-empty": [2, "always"],
   },

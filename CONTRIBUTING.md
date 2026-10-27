@@ -61,12 +61,12 @@ Branch names: `<type>/<short-description>` with type `feat`, `fix`, `docs`, `tes
 [Conventional Commits](https://www.conventionalcommits.org), **one line only**, no body:
 
 ```
-<type>(<optional scope>): <short description in lower case>
+<type>(<optional scope>): <short description starting with a lower-case word>
 feat(reservations): add time window validation
 ```
 
 - Types: `feat`, `fix`, `docs`, `test`, `chore`, `refactor`, `style`, `ci`.
-- Imperative, lower case, no full stop, 72 characters max. One logical change per commit.
+- Imperative, starting with a lower-case word (names and acronyms later in the line are fine: `add JWT login`, `show GaŤe name`), no full stop, 72 characters max. One logical change per commit.
 - Good: `fix(auth): reject expired tokens`. Bad: `Fixed stuff`, `WIP`, `Update README.md.`
 - The `Co-Authored-By: ...` line Claude adds at the end is allowed.
 - Dependabot's `chore(deps): ...` commits are exempt.

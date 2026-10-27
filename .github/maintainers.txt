@@ -1,0 +1,3 @@
+# GitHub usernames allowed to publish releases (one per line, no @).
+# Changes need maintainer approval (see CODEOWNERS). Add yourself here via a PR if you are a release manager.
+MatejKustka

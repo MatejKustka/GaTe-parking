@@ -44,7 +44,7 @@ Nobody pushes to `main`; everything goes through a PR with a review, a green CI 
 - Every PR runs CI (format, lint, type check, tests, build, Docker build). It must be green.
 - Enable GitHub Copilot code review (repo Settings, Rules, add the Copilot review rule) so a bot reviews each PR. Address its comments or reply why not.
 - `main` is protected by a GitHub ruleset (see `.github/rulesets/main-protection.json`): PR required, 1 approval, green CI.
-- Releases: a maintainer runs `/release vX.Y.Z`; the Release workflow publishes Docker images to GHCR and creates the GitHub release.
+- Releases: see [docs/RELEASING.md](docs/RELEASING.md). Maintainers run Actions -> Release -> Run workflow (or `/release vX.Y.Z`); the workflow publishes Docker images to GHCR and creates the GitHub release.
 
 ## CI and Docker rules
 
@@ -63,7 +63,7 @@ The repo ships rules in `CLAUDE.md` and slash commands in `.claude/commands/`, s
 3. `/sync` to pull in teammates' changes
 4. `/ship` to push and open a pull request
 
-Maintainers use `/release v0.1.0` to tag a release.
+Maintainers use `/release v0.1.0` to start a release (see `docs/RELEASING.md`).
 
 ## Project layout
 

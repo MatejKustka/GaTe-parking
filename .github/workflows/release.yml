@@ -1,19 +1,83 @@
 name: Release
 
-# Runs when a maintainer pushes a version tag (use the /release command in Claude Code).
+# Three ways to start it (all end up here):
+#  1. Actions tab -> Release -> Run workflow, type a version (recommended)
+#  2. /release v0.1.0 in Claude Code
+#  3. pushing a tag vX.Y.Z by hand
+# Only people listed in .github/maintainers.txt can release; the tag must be on main.
 on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release, e.g. v0.1.0"
+        required: true
   push:
     tags: ["v*"]
 
 permissions:
   contents: write
   packages: write
+  checks: read
 
 jobs:
-  publish:
+  release:
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      ACTOR: ${{ github.actor }}
+      INPUT_VERSION: ${{ inputs.version }}
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Work out the version and who is releasing
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+            VERSION="$INPUT_VERSION"
+          else
+            VERSION="$GITHUB_REF_NAME"
+          fi
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          if ! echo "$VERSION" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "::error::Version must look like v1.2.3, got '$VERSION'"; exit 1
+          fi
+          if ! grep -Eiq "^${ACTOR}$" <(grep -v '^#' .github/maintainers.txt); then
+            echo "::error::$ACTOR is not listed in .github/maintainers.txt on main, so cannot release"; exit 1
+          fi
+
+      - name: Tag must be on main and unique
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = "push" ]; then
+            git fetch --tags --force
+            if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+              echo "::error::Tag $VERSION is not on main. Releases come from main only."; exit 1
+            fi
+          elif git ls-remote --exit-code --tags origin "refs/tags/$VERSION" >/dev/null 2>&1; then
+            echo "::error::Tag $VERSION already exists. Never reuse a version; pick the next one."; exit 1
+          fi
+
+      - name: Main must be green (manual runs)
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          SHA=$(git rev-parse origin/main)
+          for check in "Check" "Commit messages" "Docker build" "Smoke test"; do
+            result=$(gh api "repos/$GITHUB_REPOSITORY/commits/$SHA/check-runs?per_page=100" \
+              --jq "[.check_runs[] | select(.name==\"$check\")] | sort_by(.started_at) | last | .conclusion")
+            echo "$check: $result"
+            if [ "$check" = "Commit messages" ] && [ "$result" = "null" ]; then continue; fi
+            if [ "$result" != "success" ]; then echo "::error::'$check' is not green on main ($SHA)"; exit 1; fi
+          done
+
+      - name: Create the tag (manual runs)
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a "$VERSION" -m "$VERSION"
+          git push origin "$VERSION"
+
       - uses: docker/setup-buildx-action@v4
       - uses: docker/login-action@v4
         with:
@@ -28,7 +92,7 @@ jobs:
           file: backend/Dockerfile
           push: true
           tags: |
-            ${{ env.IMAGE_PREFIX }}-backend:${{ github.ref_name }}
+            ${{ env.IMAGE_PREFIX }}-backend:${{ env.VERSION }}
             ${{ env.IMAGE_PREFIX }}-backend:latest
       - uses: docker/build-push-action@v7
         with:
@@ -36,9 +100,15 @@ jobs:
           file: frontend/Dockerfile
           push: true
           tags: |
-            ${{ env.IMAGE_PREFIX }}-frontend:${{ github.ref_name }}
+            ${{ env.IMAGE_PREFIX }}-frontend:${{ env.VERSION }}
             ${{ env.IMAGE_PREFIX }}-frontend:latest
-      - name: Create GitHub release
-        run: gh release create "$GITHUB_REF_NAME" --generate-notes || gh release edit "$GITHUB_REF_NAME" --generate-notes
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create the GitHub release (skipped if one already exists)
+        run: |
+          if gh release view "$VERSION" >/dev/null 2>&1; then
+            echo "Release $VERSION already exists (created in the GitHub UI); leaving its notes as they are."
+          else
+            PRE=""
+            case "$VERSION" in v0.*) PRE="--prerelease";; esac
+            gh release create "$VERSION" --verify-tag --generate-notes $PRE
+          fi

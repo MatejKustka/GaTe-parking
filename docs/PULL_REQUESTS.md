@@ -1,6 +1,6 @@
 # Pull request rules
 
-Nobody pushes to `main` except repo admins (the ruleset's only bypass, for emergencies and setup). Everyone else must use a pull request (PR). Keep teammates on the **Write** role, never Admin. GitHub enforces most of this (see `.github/rulesets/main-protection.json`); the rest is team agreement.
+Nobody pushes to `main` except repo admins (the ruleset's only bypass, for emergencies and setup). Everyone else must use a pull request (PR). Keep teammates on the **Write** role: if everyone is Admin, everyone can bypass the rules and the protection is meaningless. GitHub enforces most of this (see `.github/rulesets/main-protection.json`); the rest is team agreement.
 
 ## Before you open a PR
 

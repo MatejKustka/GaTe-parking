@@ -9,7 +9,6 @@
 /frontend/nginx.conf @MatejKustka
 /docker-compose.yml @MatejKustka
 /eslint.config.js @MatejKustka
-/.prettierrc @MatejKustka
 /package.json @MatejKustka
 /package-lock.json @MatejKustka
 /tsconfig.base.json @MatejKustka

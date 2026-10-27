@@ -3,7 +3,7 @@ name: Release
 # Runs when a maintainer pushes a version tag (use the /release command in Claude Code).
 on:
   push:
-    tags: ['v*']
+    tags: ["v*"]
 
 permissions:
   contents: write

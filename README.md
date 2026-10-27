@@ -105,7 +105,7 @@ From "My Reservations" the user edits an upcoming reservation (e.g. time frame o
 
 ## Work breakdown (PBS)
 
-_To be filled in from the team PBS document._
+Sprints, feature areas and task ownership are in [docs/PBS.md](docs/PBS.md).
 
 ## Tech stack
 
@@ -117,7 +117,14 @@ _TBD._
 
 ## Repository structure
 
-_TBD._
+```
+backend/      Backend app, DB migrations, backend tests
+frontend/     Frontend app and tests
+docs/         PBS, API docs, business model, wireframes, test reports
+.github/      PR and issue templates
+```
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the branching, commit and review rules.
 
 ## License
 

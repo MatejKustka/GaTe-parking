@@ -128,7 +128,7 @@ Sprints, feature areas and task ownership are in [docs/PBS.md](docs/PBS.md).
 | Backend  | Node.js, Express, TypeScript, Mongoose, Vitest + Supertest                                                                                   |
 | Database | MongoDB                                                                                                                                      |
 | Tooling  | npm workspaces, ESLint, Prettier, Docker Compose                                                                                             |
-| CI/CD    | GitHub Actions (checks and Docker build on PRs, images and release on `v*` tags), Copilot code review on PRs, CodeQL + npm audit, Dependabot |
+| CI/CD    | GitHub Actions (checks and Docker build on PRs, images and release on `v*` tags), Copilot code review on PRs, CodeQL + npm audit
 
 ## Getting started
 
